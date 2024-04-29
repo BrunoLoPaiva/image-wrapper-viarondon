@@ -31,6 +31,9 @@ const Wrapper = () => {
     <section className={styles.wrapper}>
       <ImagePasteArea />
       <button className={styles.exportButton} onClick={handleExport}>Exportar</button>
+      <div className={styles.footer}>
+        Criado por Pedro Flores. 04/2024
+      </div>
     </section>
   );
 }
