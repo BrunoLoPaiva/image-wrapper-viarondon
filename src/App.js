@@ -8,7 +8,9 @@ function App() {
   return (
     <>
       <Wrapper/>
-      
+      <div className='footer'>
+        Criado por Pedro Flores. 04/2024
+      </div>
     </>
   );
 }
