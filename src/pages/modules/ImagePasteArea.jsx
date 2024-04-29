@@ -64,7 +64,7 @@ const ImagePasteArea = () => {
         </div>
         <textarea>Teste</textarea>
       </div>
-      <button onClick={() => setPasteAreaStyle(pasteAreaStyle === 0 ? 1 : 0)}>Trocar Estilo</button>
+      <button onClick={() => setPasteAreaStyle(pasteAreaStyle === 0 ? 1 : 0)} className={styles.buttonStyle}>Trocar Estilo</button>
     </div>
   );
 };
