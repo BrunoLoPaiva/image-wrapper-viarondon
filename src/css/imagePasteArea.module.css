@@ -1,0 +1,89 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+  }
+  
+.pasteArea {
+  width: 100%;
+  height: 150px;
+  color: white;
+  border: 2px dashed #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.imageList {
+  display: grid;
+  width: auto;
+}
+
+.imageList1{
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.imageList2{
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.imageList img {
+    width: 100%;
+    object-fit: cover; 
+}
+.imageWrapper {
+  position: relative;
+}
+
+.imageWrapper img {
+  width: 100%;
+  display: block;
+}
+
+.hoverEffect {
+  cursor: grab;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease; 
+}
+
+.imageWrapper:hover .hoverEffect {
+  display: flex; 
+}
+
+.hoverEffect span{
+  cursor: pointer;
+}
+
+.hoverEffect span svg{
+  fill: white;
+  width: 36px;
+  height: 36px;
+}
+
+.imageHolder{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+textarea {
+  padding: 2px;
+  font-size: 1rem;
+  font-weight: bold;
+  min-width: 33.3333%;
+  max-width: 100%;   
+  min-height: 50px; 
+  max-height: 300px; 
+  resize: both;     
+}
