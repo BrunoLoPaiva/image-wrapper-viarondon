@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styles from '../../css/imagePasteArea.module.css'; // Certifique-se de ter o CSS necessário
+import React, { useState } from "react";
+import styles from "../../css/imagePasteArea.module.css"; // Certifique-se de ter o CSS necessário
 import { FaTrash } from "react-icons/fa";
 
 const ImagePasteArea = () => {
@@ -9,19 +9,22 @@ const ImagePasteArea = () => {
   const handlePaste = (event) => {
     const items = event.clipboardData.items;
     for (let item of items) {
-      if (item.type.startsWith('image')) {
+      if (item.type.startsWith("image")) {
         const file = item.getAsFile();
         const imageUrl = URL.createObjectURL(file);
-        setImages(prevImages => [...prevImages, imageUrl]);
+        setImages((prevImages) => [...prevImages, imageUrl]);
       }
     }
   };
 
   const deleteImage = (index, event) => {
-    if (!event.ctrlKey && !window.confirm('Tem certeza que deseja excluir esta imagem?')) {
+    if (
+      !event.ctrlKey &&
+      !window.confirm("Tem certeza que deseja excluir esta imagem?")
+    ) {
       return;
     }
-    setImages(prevImages => prevImages.filter((_, i) => i !== index));
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   const handleDragStart = (e, index) => {
@@ -46,13 +49,21 @@ const ImagePasteArea = () => {
   return (
     <div className={styles.container} onPaste={handlePaste}>
       <div className={styles.pasteArea}>Cole suas imagens aqui!</div>
-      <div className={styles.imageHolder} id='imageList'>
-        <div className={`${styles.imageList} ${pasteAreaStyle === 0 ? styles.imageList1 : styles.imageList2}`}>
+      <div className={styles.imageHolder} id="imageList">
+        <div
+          className={`${styles.imageList} ${
+            pasteAreaStyle === 0 ? styles.imageList1 : styles.imageList2
+          }`}
+        >
           {images.map((image, index) => (
-            <div key={index} className={styles.imageWrapper} draggable="true"
-                 onDragStart={(e) => handleDragStart(e, index)}
-                 onDragOver={handleDragOver}
-                 onDrop={(e) => handleDrop(e, index)}>
+            <div
+              key={index}
+              className={styles.imageWrapper}
+              draggable="true"
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, index)}
+            >
               <div className={styles.hoverEffect}>
                 <span onClick={(event) => deleteImage(index, event)}>
                   <FaTrash />
@@ -62,9 +73,13 @@ const ImagePasteArea = () => {
             </div>
           ))}
         </div>
-        <textarea>Teste</textarea>
       </div>
-      <button onClick={() => setPasteAreaStyle(pasteAreaStyle === 0 ? 1 : 0)} className={styles.buttonStyle}>Trocar Estilo</button>
+      <button
+        onClick={() => setPasteAreaStyle(pasteAreaStyle === 0 ? 1 : 0)}
+        className={styles.buttonStyle}
+      >
+        Trocar Estilo
+      </button>
     </div>
   );
 };
