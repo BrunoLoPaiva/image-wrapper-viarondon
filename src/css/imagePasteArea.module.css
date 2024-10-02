@@ -1,105 +1,124 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    width: 100%;
-  }
-  
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .pasteArea {
   width: 100%;
   height: 150px;
-  color: white;
+  color: var(--text-color);
   border: 2px dashed #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  position: relative;
+}
+
+.uploadLabel {
+  color: var(--link-color);
+  cursor: pointer;
+  margin-left: 5px;
+  text-decoration: underline;
+}
+
+.fileInput {
+  display: none;
+}
+
+.controls {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.controls label {
+  margin-right: 10px;
+  color: var(--text-color);
+}
+
+.controls select {
+  padding: 5px;
 }
 
 .imageList {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.grid .imageWrapper {
+  flex: 1 1 calc(33.333% - 10px);
+}
+
+.list .imageWrapper {
+  flex: 1 1 100%;
+}
+
+.columns .imageWrapper {
+  flex: 1 1 calc(25% - 10px);
+}
+
+.myMasonryGrid {
+  display: flex;
+  margin-left: -10px; /* gutter size offset */
   width: auto;
 }
 
-.imageList1{
-  grid-template-columns: repeat(3, 1fr);
+.myMasonryGridColumn {
+  padding-left: 2px; /* gutter size */
+  background-clip: padding-box;
 }
 
-.imageList2{
-  grid-template-columns: repeat(2, 1fr);
+.myMasonryGridColumn > div {
+  margin-bottom: 10px;
 }
 
-.imageList img {
-    width: 100%;
-    object-fit: cover; 
-}
 .imageWrapper {
   position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.imageWrapper.dragging {
+  opacity: 0.5;
+  border: 2px dashed #ccc;
 }
 
 .imageWrapper img {
   width: 100%;
+  height: auto;
   display: block;
+  transition: transform 0.3s ease;
+}
+
+.imageWrapper:hover img {
+  transform: scale(1.05);
 }
 
 .hoverEffect {
-  cursor: grab;
+  cursor: pointer;
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  top: 5px;
+  right: 5px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--hover-color);
+  padding: 5px;
   display: none;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease; 
+  transition: opacity 0.3s ease;
 }
 
 .imageWrapper:hover .hoverEffect {
-  display: flex; 
-}
-
-.hoverEffect span{
-  cursor: pointer;
-}
-
-.hoverEffect span svg{
-  fill: white;
-  width: 36px;
-  height: 36px;
-}
-
-.imageHolder{
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
 }
 
-textarea {
-  padding: 2px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  min-width: 33.3333%;
-  max-width: 100%;   
-  min-height: 50px; 
-  max-height: 300px; 
-  resize: both;     
-}
-
-.buttonStyle{
-  margin-top: 25px;
-  padding: 5px 10px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  background-color: var(--darkGreen);
-  transition: all .3s ease;
-}
-
-.buttonStyle:hover{
-  background-color: var(--mediumGreen);
-  transform: translateY(-5px);
+.hoverEffect span svg {
+  fill: var(--icon-color);
+  width: 100px;
+  height: 100px;
 }

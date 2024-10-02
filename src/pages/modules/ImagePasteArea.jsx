@@ -1,16 +1,31 @@
 import React, { useState } from "react";
-import styles from "../../css/imagePasteArea.module.css"; // Certifique-se de ter o CSS necessário
+import styles from "../../css/imagePasteArea.module.css";
 import { FaTrash } from "react-icons/fa";
+import Masonry from "react-masonry-css";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 const ImagePasteArea = () => {
   const [images, setImages] = useState([]);
-  const [pasteAreaStyle, setPasteAreaStyle] = useState(0);
+  const [layoutStyle, setLayoutStyle] = useState("grid");
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handlePaste = (event) => {
     const items = event.clipboardData.items;
     for (let item of items) {
       if (item.type.startsWith("image")) {
         const file = item.getAsFile();
+        const imageUrl = URL.createObjectURL(file);
+        setImages((prevImages) => [...prevImages, imageUrl]);
+      }
+    }
+  };
+
+  const handleFileUpload = (event) => {
+    const files = event.target.files;
+    for (let file of files) {
+      if (file.type.startsWith("image")) {
         const imageUrl = URL.createObjectURL(file);
         setImages((prevImages) => [...prevImages, imageUrl]);
       }
@@ -29,6 +44,7 @@ const ImagePasteArea = () => {
 
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("imageIndex", index);
+    e.currentTarget.classList.add(styles.dragging);
   };
 
   const handleDragOver = (e) => {
@@ -46,14 +62,56 @@ const ImagePasteArea = () => {
     setImages(newImages);
   };
 
+  const handleDragEnd = (e) => {
+    e.currentTarget.classList.remove(styles.dragging);
+  };
+
+  const openLightbox = (index) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const breakpointColumnsObj = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1,
+  };
+
   return (
     <div className={styles.container} onPaste={handlePaste}>
-      <div className={styles.pasteArea}>Cole suas imagens aqui!</div>
-      <div className={styles.imageHolder} id="imageList">
-        <div
-          className={`${styles.imageList} ${
-            pasteAreaStyle === 0 ? styles.imageList1 : styles.imageList2
-          }`}
+      <div className={styles.pasteArea}>
+        Cole suas imagens aqui ou
+        <label htmlFor="fileUpload" className={styles.uploadLabel}>
+          selecione um arquivo
+        </label>
+        <input
+          type="file"
+          id="fileUpload"
+          className={styles.fileInput}
+          multiple
+          accept="image/*"
+          onChange={handleFileUpload}
+        />
+      </div>
+      <div className={styles.controls}>
+        <label>Estilo de Layout:</label>
+        <select
+          value={layoutStyle}
+          onChange={(e) => setLayoutStyle(e.target.value)}
+        >
+          <option value="grid">Grade</option>
+          <option value="list">Lista</option>
+          <option value="masonry">Alvenaria</option>
+          <option value="columns">Colunas</option>
+        </select>
+      </div>
+      {layoutStyle === "masonry" ? (
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className={styles.myMasonryGrid}
+          columnClassName={styles.myMasonryGridColumn}
+          id="imageList"
         >
           {images.map((image, index) => (
             <div
@@ -63,23 +121,60 @@ const ImagePasteArea = () => {
               onDragStart={(e) => handleDragStart(e, index)}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, index)}
+              onDragEnd={handleDragEnd}
             >
               <div className={styles.hoverEffect}>
                 <span onClick={(event) => deleteImage(index, event)}>
                   <FaTrash />
                 </span>
               </div>
-              <img src={image} alt={`Pasted ${index}`} />
+              <img
+                src={image}
+                alt={`Pasted ${index}`}
+                onClick={() => openLightbox(index)}
+              />
+            </div>
+          ))}
+        </Masonry>
+      ) : (
+        <div
+          className={`${styles.imageList} ${styles[layoutStyle]}`}
+          id="imageList"
+        >
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className={styles.imageWrapper}
+              draggable="true"
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, index)}
+              onDragEnd={handleDragEnd}
+            >
+              <div className={styles.hoverEffect}>
+                <span onClick={(event) => deleteImage(index, event)}>
+                  <FaTrash />
+                </span>
+              </div>
+              <img
+                src={image}
+                alt={`Pasted ${index}`}
+                onClick={() => openLightbox(index)}
+              />
             </div>
           ))}
         </div>
-      </div>
-      <button
-        onClick={() => setPasteAreaStyle(pasteAreaStyle === 0 ? 1 : 0)}
-        className={styles.buttonStyle}
-      >
-        Trocar Estilo
-      </button>
+      )}
+      {lightboxOpen && (
+        <Lightbox
+          open={lightboxOpen}
+          close={() => setLightboxOpen(false)}
+          slides={images.map((src) => ({ src }))}
+          index={currentImageIndex}
+          render={{ slide: Lightbox.defaultSlide }}
+          onIndexChange={(index) => setCurrentImageIndex(index)}
+        />
+      )}
     </div>
   );
 };

@@ -1,57 +1,88 @@
-.wrapper{
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: var(--darkBlue);
-    flex-direction: column;
+.wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: var(--background-color);
+  flex-direction: column;
+  padding: 20px;
 }
 
-.exportButton{
-    font-size: 30px;
-	padding: 10px 30px;
-	margin: 10px;
-	border: 0;
-	cursor: pointer;
-	color: black;
-	text-transform: uppercase;
-	border-radius: 10px;
-	display: inline-block;
-	overflow: hidden;
-	transition: all 0.4s cubic-bezier(.86, .01, .15, .99);
+.topBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background-color: var(--background-color);
+  padding: 10px;
+  z-index: 100;
 }
-
-.exportButton::before {
-	content: "";
-	position: absolute;
-	z-index: -1;
-	top: 0px;
-	left: 0px;
-	right: 0px;
-	bottom: 0;
-}
-
 
 .exportButton {
-	transform: perspective(1px) translateZ(0);
-	color: var(--darkBlue);
-	transition: 0.4s;
-    background-color: var(--mediumGreen);
+  font-size: 30px;
+  padding: 10px 30px;
+  margin: 10px;
+  border: 0;
+  cursor: pointer;
+  color: black;
+  text-transform: uppercase;
+  border-radius: 10px;
+  display: inline-block;
+  overflow: hidden;
+  position: sticky;
+  top: 20px;
+  z-index: 99;
+  transition: all 0.4s cubic-bezier(0.86, 0.01, 0.15, 0.99);
 }
 
 .exportButton::before {
-	background: var(--neon);
-	clip-path: inset(0 100% 0 0);
-	opacity: 1;
-	transition: 0.4s;
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0;
+}
+
+.exportButton {
+  transform: perspective(1px) translateZ(0);
+  color: var(--darkBlue);
+  transition: 0.4s;
+  background-color: var(--mediumGreen);
+}
+
+.exportButton::before {
+  background: var(--neon);
+  clip-path: inset(0 100% 0 0);
+  opacity: 1;
+  transition: 0.4s;
 }
 
 .exportButton:hover::before {
-	clip-path: inset(0 0 0 0);
+  clip-path: inset(0 0 0 0);
 }
 
 .exportButton:hover {
-	color: var(--lightBlue);
-	box-shadow: 0 0 0 10px rgba(250, 250, 250, 0.1)
+  color: var(--lightBlue);
+  box-shadow: 0 0 0 10px rgba(250, 250, 250, 0.1);
 }
 
+.exportButton,
+.themeButton {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: 0;
+  cursor: pointer;
+  color: var(--text-color);
+  background-color: var(--button-bg);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.exportButton:hover,
+.themeButton:hover {
+  background-color: var(--button-hover-bg);
+}
